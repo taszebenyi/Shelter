@@ -6,7 +6,7 @@ const animalSchema = mongoose.Schema({
     type: String,
     enum: ['Cat', 'Dog'],
     required: true
-  }
+  },
   name: {
     type: String,
     required: true
@@ -14,6 +14,9 @@ const animalSchema = mongoose.Schema({
   color: {
     type: String,
     required: true
+  },
+  image: {
+    type: String
   },
   comment: {
     type: String
@@ -23,14 +26,20 @@ const animalSchema = mongoose.Schema({
     maxlength: 50,
     required: function() { return this.species === 'Dog'; }
   },
-  birthDate: {
-    type: Date,
-    required: true
-  },
-  registrationDate: {
-    type: Date,
-    default: Date.now
-  }
+  // birthDate: {
+  //   type: Date,
+  //   required: true
+  // },
+  // registrationDate: {
+  //   type: Date,
+  //   default: Date.now,
+  //   validate: {
+  //     validator: function(date) {
+  //       return date <= Date.now
+  //     },
+  //     message: function(props) { `${props.value} a mai datum utan van` }
+  //   }
+  // }
 });
 
 const Animal = mongoose.model('Animal', animalSchema);

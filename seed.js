@@ -1,58 +1,71 @@
-var mongoose = require('mongoose');
-var Cat = require('./models/cat');
-var Dog  = require('./models/dog');
+const config = require('./config');
+const {ObjectID} = require('mongodb');
+const mongoose = require('mongoose');
+const Animal = require('./models/animal')
 
-var data = [
-    {
-        name: "Cloud's Rest",
-        image: "https://farm4.staticflickr.com/3795/10131087094_c1c0a1c859.jpg",
-        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-    },
-    {
-        name: "Desert Mesa",
-        image: "https://farm6.staticflickr.com/5487/11519019346_f66401b6c1.jpg",
-        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-    },
-    {
-        name: "Canyon Floor",
-        image: "https://farm1.staticflickr.com/189/493046463_841a18169e.jpg",
-        description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum"
-    }
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true });
+mongoose.Promise = global.Promise;
+var db = mongoose.connection;
+
+db.once("open", () => {
+  console.log("Connection to database succeeded!");
+});
+
+let seedAnimals = [
+  {
+    _id: new ObjectID(),
+    species: 'Cat',
+    name: 'Fred',
+    color: 'Brown',
+    image: 'https://goo.gl/Abe7K2',
+    comment: 'Likes mice',
+    chipID: '04a529541620f135e422e647e9ccd8a7',
+    // birthDate: new Date(2016,03,30),
+    // registrationDate:
+  },
+  {
+    _id: new ObjectID(),
+    species: 'Cat',
+    name: 'Lucy',
+    color: 'grey',
+    image: 'https://goo.gl/Qi9gyi',
+    // comment:,
+    // chipID:,
+    // birthDate: new Date(2017,02,11),
+    // registrationDate:
+  },
+  {
+    _id: new ObjectID(),
+    species: 'Dog',
+    name: 'Bono',
+    color: 'black',
+    image: 'https://goo.gl/5aPbo1',
+    comment: 'Likes to jump',
+    chipID: 'f7ade104e06f26c06e9b87218fd13c56',
+    // birthDate: new Date(2018,08,08),
+    // registrationDate:
+  },
+  {
+    _id: new ObjectID(),
+    species: 'Dog',
+    name: 'Rusty',
+    color: 'Brown',
+    image: 'https://goo.gl/2unsia',
+    comment: 'Barking enthusiast',
+    chipID: 'b05fc05741aad91c20ff49387090dd34',
+    // birthDate: new Date(2013, 03, 10),
+    // registrationDate:
+  }
 ]
 
-function seedDB(){
-   //Remove all campgrounds
-   Campground.remove({}, function(err){
-        if(err){
-            console.log(err);
-        }
-        console.log("removed campgrounds!");
-         //add a few campgrounds
-        data.forEach(function(seed){
-            Campground.create(seed, function(err, campground){
-                if(err){
-                    console.log(err)
-                } else {
-                    console.log("added a campground");
-                    //create a comment
-                    Comment.create(
-                        {
-                            text: "This place is great, but I wish there was internet",
-                            author: "Homer"
-                        }, function(err, comment){
-                            if(err){
-                                console.log(err);
-                            } else {
-                                campground.comments.push(comment);
-                                campground.save();
-                                console.log("Created new comment");
-                            }
-                        });
-                }
-            });
-        });
-    });
-    //add a few comments
+function seedDb() {
+  Animal.deleteMany({})
+  .then(() => {
+    return Animal.insertMany(seedAnimals);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 }
 
-module.exports = seedDB;
+seedDb();
