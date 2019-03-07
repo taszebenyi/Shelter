@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-const catSchema = mongoose.Schema({
+const animalSchema = mongoose.Schema({
+  species: {
+    type: String,
+    enum: ['Cat', 'Dog'],
+    required: true
+  }
   name: {
     type: String,
     required: true
@@ -15,7 +20,8 @@ const catSchema = mongoose.Schema({
   },
   chipID: {
     type: String,
-    maxlength: 50
+    maxlength: 50,
+    required: function() { return this.species === 'Dog'; }
   },
   birthDate: {
     type: Date,
@@ -27,6 +33,6 @@ const catSchema = mongoose.Schema({
   }
 });
 
-const Cat = mongoose.model('Cat', catSchema);
+const Animal = mongoose.model('Animal', animalSchema);
 
-module.exports = Cat;
+module.exports = Animal;

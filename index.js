@@ -1,6 +1,6 @@
+require('./config');
+require('./database');
 const path = require('path');
-const config = require('./config/config');
-const db = require('./db/database');
 const express = require('express');
 
 const app = express();
