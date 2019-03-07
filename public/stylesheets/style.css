@@ -1,0 +1,25 @@
+.container.main {
+  margin-top: 5.0em;
+}
+
+.ui.main.text.container.segment {
+  margin-top: 5.0em;
+}
+
+.post-image {
+  max-width:600px;
+  width: auto;
+  height: auto;
+}
+
+.author {
+  font-style: italic;
+}
+
+#show-date {
+  font-weight: bold;
+}
+
+#delete {
+    display: inline;
+}
