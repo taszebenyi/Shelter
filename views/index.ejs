@@ -1,10 +1,33 @@
 <% include ./partials/header %>
 
 <div class="ui main text container">
-    <div class="ui huge header">Index</div>
-    <div class="ui top  attached segment">
+  <div class="ui huge header">Sheltered Animals</div>
+  <div class="ui top  attached segment">
+    <div class="ui divided items">
+      <% animals.forEach(function(animal){ %>
+        <div class="item">
+          <div class="rounded image">
+            <img class="animal-image" src="<%= animal.image %>" >
+          </div>
+          <div class="content">
+            <div class="description">
+              <p>Species: <%= animal.species %></p>
+              <p>Name: <%= animal.name %></p>
+              <p>Color: <%= animal.color %></p>
+              <p>Comment: <%= animal.comment %></p>
+              <p>Chip ID: <%= animal.chipID %></p>
+            </div>
+            <div class="extra">
+              <a class="ui floated basic green button" href="/animal/<%= animal._id %>">
+                More
+                <i class="right chevron icon"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+        <div class="ui divided items">
+        </div>
+      </div>
 
-    </div>
-</div>
-
-<% include ./partials/footer %>
+      <% include ./partials/footer %>

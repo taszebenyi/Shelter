@@ -30,7 +30,7 @@ const animalSchema = mongoose.Schema({
   //   type: Date,
   //   required: true
   // },
-  // registrationDate: {
+  // createdAt: {
   //   type: Date,
   //   default: Date.now,
   //   validate: {
