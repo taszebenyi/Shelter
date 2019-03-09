@@ -122,7 +122,7 @@ let seedOwners =
       zipCode: '48932',
       city: 'Springfield',
       street: 'Long',
-      houseNumber: '1321'
+      houseNumber: '93217'
     },
     comment: 'Likes cats'
   }

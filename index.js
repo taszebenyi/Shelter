@@ -1,7 +1,9 @@
 require('./config');
 require('./database');
 const errorHandler = require('./middlewares/errorHandler');
+const ownerExtract = require('./utils/ownerExtract');
 const Animal = require('./models/animal');
+const Owner = require('./models/owner');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
 const methodOverride = require('method-override');
@@ -107,59 +109,20 @@ app.get('/animals/:id/adopt', (req, res, next) => {
   });
 });
 
-
-
-
-
 // ADOPT PUT ROUTE
 app.put('/animals/:id/adopt', (req, res, next) => {
-  Animal.findOneAndUpdate( {_id: new ObjectID(req.params.id)}, {adopted: true}, {useFindAndModify: false, new: true, runValidators: true}, (error, animal) => {
+  let owner = ownerExtract(req.body);
 
-    if(error) {
-      let err = new Error('Animal could not be edited');
-      err.status = 500;
-      next(error);
-    } else {
-      res.redirect('/animals/adopted');
-    }
+  Owner.create(owner)
+  .then((owner) => {
+    return Animal.findOneAndUpdate({_id: new ObjectID(req.params.id)}, {adopted: true, ownerID: owner._id}, {useFindAndModify: false, new: true, /*runValidators: true*/})
+  })
+  .then((animal) => {
+    res.redirect('/animals/adopted');
+  }).catch((error) => {
+    next(error);
   });
-})
-
-app.put('/animals/:id/adopt', (req, res, next) => {
-
-    // ha az adott owner mar letezik, akkor csak rakjuk editeljuk, ha nem letezik, hozzunk letre ujat
-
-    Animal.findOneAndUpdate( {_id: new ObjectID(req.params.id)}, {adopted: true}, {useFindAndModify: false, new: true, runValidators: true})
-    .then(() => {
-      return Animal.findById(req.params.id)
-      .populate(owner)
-    })
-    .then(() => {
-      console.log('Seeding database completed')
-    })
-    .catch((err) => {
-      console.log(err);
-    })
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // SHOW EDIT ROUTE
 app.get('/animals/:id/edit', (req, res, next) => {
@@ -168,14 +131,15 @@ app.get('/animals/:id/edit', (req, res, next) => {
       let err = new Error('Animal by specified ID not found');
       err.status = 404;
       next(err);
+    } else {
+      res.render('edit', {animal});
     }
-    res.render('edit', {animal});
   });
 });
 
 // EDIT ROUTE
 app.put('/animals/:id', (req, res, next) => {
-  Animal.findOneAndUpdate( {_id: new ObjectID(req.params.id)}, req.body.animal, {useFindAndModify: false, new: true, runValidators: true}, (error, animal) => {
+  Animal.findOneAndUpdate({_id: new ObjectID(req.params.id)}, req.body.animal, {useFindAndModify: false, new: true, runValidators: true}, (error, animal) => {
 
     // error - to see validator err
     // err - to see custom-made err
