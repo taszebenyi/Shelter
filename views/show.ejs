@@ -14,7 +14,9 @@
         </div>
       </div>
     </div>
-    <a class="ui green button" href="/animals/<%= animal._id %>/adopt">Adopt</a>
+    <% if(animal.adopted == false) {%>
+      <a class="ui green button" href="/animals/<%= animal._id %>/adopt">Adopt</a>
+    <% }%>
     <a class="ui green basic button" href="/animals/<%= animal._id %>/edit">Edit</a>
     <form id="delete" action="/animals/<%= animal._id %>?_method=DELETE" method="POST">
       <button class="ui red basic button">Delete</button>

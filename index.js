@@ -18,6 +18,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
 
+// !!
+app.locals.adopted = false;
+
 // INDEX ROUTE
 app.get('', (req, res, next) => {
   Animal.find({}, (error, animals) => {
@@ -113,7 +116,7 @@ app.put('/animals/:id/adopt', (req, res, next) => {
       err.status = 500;
       next(error);
     } else {
-      res.redirect('/');
+      res.redirect('/animals/adopted');
     }
   });
 })
