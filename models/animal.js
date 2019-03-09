@@ -30,6 +30,10 @@ const animalSchema = mongoose.Schema({
     type: Boolean,
     default: false,
     required: true
+  },
+  ownerID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Owner',
   }
   // birthDate: {
   //   type: Date,

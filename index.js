@@ -107,6 +107,10 @@ app.get('/animals/:id/adopt', (req, res, next) => {
   });
 });
 
+
+
+
+
 // ADOPT PUT ROUTE
 app.put('/animals/:id/adopt', (req, res, next) => {
   Animal.findOneAndUpdate( {_id: new ObjectID(req.params.id)}, {adopted: true}, {useFindAndModify: false, new: true, runValidators: true}, (error, animal) => {
@@ -120,6 +124,42 @@ app.put('/animals/:id/adopt', (req, res, next) => {
     }
   });
 })
+
+app.put('/animals/:id/adopt', (req, res, next) => {
+
+    // ha az adott owner mar letezik, akkor csak rakjuk editeljuk, ha nem letezik, hozzunk letre ujat
+
+    Animal.findOneAndUpdate( {_id: new ObjectID(req.params.id)}, {adopted: true}, {useFindAndModify: false, new: true, runValidators: true})
+    .then(() => {
+      return Animal.findById(req.params.id)
+      .populate(owner)
+    })
+    .then(() => {
+      console.log('Seeding database completed')
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // SHOW EDIT ROUTE
 app.get('/animals/:id/edit', (req, res, next) => {

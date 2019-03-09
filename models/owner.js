@@ -24,15 +24,11 @@ const ownerSchema = mongoose.Schema({
       required: true
     }
   },
-  adoptedAnimals: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Animal'
-  }],
   comment: {
     type: String
   }
 });
 
-const Owner = mongoose.model('Owner', animalSchema);
+const Owner = mongoose.model('Owner', ownerSchema);
 
 module.exports = Owner;
