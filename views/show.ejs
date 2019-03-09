@@ -4,17 +4,22 @@
   <div class="ui top attached ">
     <div class="item">
       <img class="ui centered rounded image" src="<%= animal.image %>" >
-      <div class="description">
-        <p>Species: <%= animal.species %></p>
-        <p>Name: <%= animal.name %></p>
-        <p>Color: <%= animal.color %></p>
-        <p>Comment: <%= animal.comment %></p>
-        <p>Chip ID: <%= animal.chipID %></p>      </div>
-      <a class="ui violet basic button" href="/posts/<%= animal._id %>/edit">Edit</a>
-      <form id="delete" action="/posts/<%= animal._id %>?_method=DELETE" method="POST">
-        <button class="ui red basic button">Delete</button>
-      </form>
+      <div class="content">
+        <div class="description-show">
+          <p class="description-item">Species: <%= animal.species %></p>
+          <p class="description-item">Name: <%= animal.name %></p>
+          <p class="description-item">Color: <%= animal.color %></p>
+          <p class="description-item">Comment: <%= animal.comment %></p>
+          <p class="description-item">Chip ID: <%= animal.chipID %></p>
+        </div>
+      </div>
     </div>
+    <a class="ui green button" href="/animals/<%= animal._id %>/adopt">Adopt</a>
+    <a class="ui green basic button" href="/animals/<%= animal._id %>/edit">Edit</a>
+    <form id="delete" action="/animals/<%= animal._id %>?_method=DELETE" method="POST">
+      <button class="ui red basic button">Delete</button>
+    </form>
   </div>
+</div>
 </div>
 <% include ./partials/footer %>
