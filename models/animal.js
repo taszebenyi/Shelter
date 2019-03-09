@@ -26,6 +26,11 @@ const animalSchema = mongoose.Schema({
     maxlength: 50,
     required: function() { return this.species === 'Dog'; }
   },
+  adopted: {
+    type: Boolean,
+    default: false,
+    required: true
+  }
   // birthDate: {
   //   type: Date,
   //   required: true

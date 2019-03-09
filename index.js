@@ -22,7 +22,7 @@ app.use(methodOverride('_method'));
 app.get('', (req, res, next) => {
   Animal.find({}, (error, animals) => {
     if(error) {
-      let err = new Error('Posts not found');
+      let err = new Error('Animals not found');
       err.status = 404;
       // add error as a parameter to show diff level error message
       next(err);
@@ -32,11 +32,58 @@ app.get('', (req, res, next) => {
   });
 });
 
+// NEW ROUTE
+app.get('/animals/new', (req, res, next) => {
+  res.render('new');
+});
+
+// CREATE ROUTE
+app.post('/animals', (req, res, next) => {
+  Animal.create(req.body.animal, (error, animal) => {
+
+    if(error) {
+      let err = new Error('Animal could not be created');
+      err.status = 500;
+      next(error);
+    } else {
+      res.redirect('/');
+    }
+  });
+});
+
+// ONLY SHELTERED ROUTE
+app.get('/animals/sheltered', (req, res, next) => {
+  Animal.find({adopted: false}, (error, animals) => {
+    if(error) {
+      let err = new Error('Animals not found');
+      err.status = 404;
+      // add error as a parameter to show diff level error message
+      next(err);
+    } else {
+      res.render('sheltered', {animals});
+    }
+  });
+});
+
+// ONLY ADOPTED ROUTE
+app.get('/animals/adopted', (req, res, next) => {
+  Animal.find({adopted: true}, (error, animals) => {
+    if(error) {
+      let err = new Error('Animals not found');
+      err.status = 404;
+      // add error as a parameter to show diff level error message
+      next(err);
+    } else {
+      res.render('adopted', {animals});
+    }
+  });
+});
+
 // SHOW ROUTE
 app.get('/animals/:id', (req, res, next) => {
   Animal.findById(req.params.id, (error, animal) => {
     if(error) {
-      let err = new Error('Animal by specified ID not found');
+      let err = new Error('Animals by specified ID not found');
       err.status = 404;
       next(err);
     }
@@ -44,18 +91,32 @@ app.get('/animals/:id', (req, res, next) => {
   });
 });
 
-// ADOPT ROUTE
-// MIGHT NOT BE TO EFFICIENT TO FETCH AGAIN FROM DB
-// app.get('/animals/:id/adopt', (req, res, next) => {
-//   Animal.findById(req.params.id, (error, animal) => {
-//     if(error) {
-//       let err = new Error('Animal by specified ID not found');
-//       err.status = 404;
-//       next(err);
-//     }
-//     res.render('adopt', {animal});
-//   });
-// });
+// ADOPT GET ROUTE
+app.get('/animals/:id/adopt', (req, res, next) => {
+  Animal.findById(req.params.id, (error, animal) => {
+    if(error) {
+      let err = new Error('Animal by specified ID not found');
+      err.status = 404;
+      next(err);
+    } else {
+      res.render('adopt', {animal});
+    }
+  });
+});
+
+// ADOPT PUT ROUTE
+app.put('/animals/:id/adopt', (req, res, next) => {
+  Animal.findOneAndUpdate( {_id: new ObjectID(req.params.id)}, {adopted: true}, {useFindAndModify: false, new: true, runValidators: true}, (error, animal) => {
+
+    if(error) {
+      let err = new Error('Animal could not be edited');
+      err.status = 500;
+      next(error);
+    } else {
+      res.redirect('/');
+    }
+  });
+})
 
 // SHOW EDIT ROUTE
 app.get('/animals/:id/edit', (req, res, next) => {
@@ -71,9 +132,7 @@ app.get('/animals/:id/edit', (req, res, next) => {
 
 // EDIT ROUTE
 app.put('/animals/:id', (req, res, next) => {
-
-  // make sure to run validators
-  Animal.findOneAndUpdate( {_id: new ObjectID(req.params.id)}, req.body.animal, {useFindAndModify: false, new: true, runValidators: true}, (error, ani) => {
+  Animal.findOneAndUpdate( {_id: new ObjectID(req.params.id)}, req.body.animal, {useFindAndModify: false, new: true, runValidators: true}, (error, animal) => {
 
     // error - to see validator err
     // err - to see custom-made err

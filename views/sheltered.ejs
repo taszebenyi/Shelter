@@ -1,7 +1,7 @@
 <% include ./partials/header %>
 
 <div class="ui main text container">
-  <div class="ui huge header">All Animals</div>
+  <div class="ui huge header">Sheltered Animals</div>
   <div class="ui top  attached segment">
     <div class="ui divided items">
       <% animals.forEach(function(animal){ %>
@@ -16,7 +16,6 @@
               <p>Color: <%= animal.color %></p>
               <p>Comment: <%= animal.comment %></p>
               <p>Chip ID: <%= animal.chipID %></p>
-              <p>Adopted: <%= animal.adopted %></p>
             </div>
             <div class="extra">
               <a class="ui floated basic green button" href="/animals/<%= animal._id %>">
