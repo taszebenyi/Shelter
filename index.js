@@ -3,13 +3,13 @@ require('./database');
 const errorHandler = require('./middlewares/errorHandler');
 const ownerExtract = require('./utils/ownerExtract');
 const seed = require('./utils/seed');
+const animalRoutes = require('./routes/animals');
 const Animal = require('./models/animal');
 const Owner = require('./models/owner');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
 const methodOverride = require('method-override');
 const path = require('path');
-const animalRoutes = require('./routes/animals');
 const express = require('express');
 
 const app = express();
@@ -27,6 +27,7 @@ app.use('/animals', animalRoutes);
 
 app.locals.adopted = false;
 
+
 // INDEX ROUTE
 app.get('', (req, res, next) => {
   Animal.find({}, (error, animals) => {
@@ -34,6 +35,31 @@ app.get('', (req, res, next) => {
       let err = new Error('Animals not found');
       err.status = 404;
       // add error as a parameter to show diff level error message
+      next(err);
+    } else {
+      res.render('index', {animals});
+    }
+  });
+});
+
+// LIST ROUTES
+app.get('/onlydogs', (req, res, next) => {
+  Animal.find({species: 'dog'}, (error, animals) => {
+    if(error) {
+      let err = new Error('Animals not found');
+      err.status = 404;
+      next(err);
+    } else {
+      res.render('index', {animals});
+    }
+  });
+});
+
+app.get('/onlycats', (req, res, next) => {
+  Animal.find({species: 'cat'}, (error, animals) => {
+    if(error) {
+      let err = new Error('Animals not found');
+      err.status = 404;
       next(err);
     } else {
       res.render('index', {animals});

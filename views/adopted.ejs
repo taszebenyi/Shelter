@@ -1,7 +1,7 @@
 <% include ./partials/header %>
 
 <div class="ui main text container">
-  <div class="ui huge header">Adopted Animals</div>
+  <div class="ui huge header">Adopted</div>
   <div class="ui top  attached segment">
     <div class="ui divided items">
       <% animals.forEach(function(animal){ %>
@@ -16,7 +16,13 @@
               <p>Birth Date: <%= animal.birthDate.toDateString() %></p>
               <p>Color: <%= animal.color %></p>
               <p>Comment: <%= animal.comment %></p>
+              <p>Owner name: <%= animal.ownerID.name %></p>
               <p>Chip ID: <%= animal.chipID %></p>
+              <p>Zip Code: <%= animal.ownerID.contact.zipCode %></p>
+              <p>City: <%= animal.ownerID.contact.city %></p>
+              <p>Street: <%= animal.ownerID.contact.street %></p>
+              <p>House Number: <%= animal.ownerID.contact.houseNumber %></p>
+              <p>Comment: <%= animal.ownerID.comment %></p>
             </div>
             <div class="extra">
               <a class="ui floated basic green button" href="/animals/<%= animal._id %>">

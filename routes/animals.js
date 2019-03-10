@@ -3,6 +3,7 @@ const router = express.Router();
 const ownerExtract = require('../utils/ownerExtract');
 const Animal = require('../models/animal');
 const Owner = require('../models/owner');
+const {ObjectID} = require('mongodb');
 
 // NEW ROUTE
 router.get('/new', (req, res, next) => {
@@ -38,6 +39,21 @@ router.get('/sheltered', (req, res, next) => {
 });
 
 // ONLY ADOPTED ROUTE
+router.get('/adopted', (req, res, next) => {
+  Animal
+  .find({adopted: true})
+  .populate('ownerID')
+  .exec(function (error, animals) {
+    if(error) {
+      let err = new Error('Animals not found');
+      err.status = 404;
+      next(err);
+    } else {
+      res.render('adopted', {animals});
+    }
+  });
+});
+
 router.get('/adopted', (req, res, next) => {
   Animal.find({adopted: true}, (error, animals) => {
     if(error) {
