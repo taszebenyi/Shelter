@@ -2,6 +2,7 @@ require('./config');
 require('./database');
 const errorHandler = require('./middlewares/errorHandler');
 const ownerExtract = require('./utils/ownerExtract');
+const seed = require('./utils/seed');
 const Animal = require('./models/animal');
 const Owner = require('./models/owner');
 const bodyParser = require('body-parser');
@@ -37,6 +38,12 @@ app.get('', (req, res, next) => {
     }
   });
 });
+
+// SEED ROUTE
+app.get('/seed', (req, res, next) => {
+  seed();
+  res.send('Database reseeded');
+})
 
 // NEW ROUTE
 app.get('/animals/new', (req, res, next) => {
