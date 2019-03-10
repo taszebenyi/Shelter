@@ -54,12 +54,30 @@ router.get('/adopted', (req, res, next) => {
   });
 });
 
-router.get('/adopted', (req, res, next) => {
-  Animal.find({adopted: true}, (error, animals) => {
+// Here is the redundancy I reffered to in the documentation
+router.get('/adopted/onlydogs', (req, res, next) => {
+  Animal
+  .find({adopted: true, species: 'dog'})
+  .populate('ownerID')
+  .exec(function (error, animals) {
     if(error) {
       let err = new Error('Animals not found');
       err.status = 404;
-      // add error as a parameter to show diff level error message
+      next(err);
+    } else {
+      res.render('adopted', {animals});
+    }
+  });
+});
+
+router.get('/adopted/onlycats', (req, res, next) => {
+  Animal
+  .find({adopted: true, species: 'cat'})
+  .populate('ownerID')
+  .exec(function (error, animals) {
+    if(error) {
+      let err = new Error('Animals not found');
+      err.status = 404;
       next(err);
     } else {
       res.render('adopted', {animals});
