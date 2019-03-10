@@ -13,6 +13,7 @@
             <div class="description">
               <p>Species: <%= animal.species %></p>
               <p>Name: <%= animal.name %></p>
+              <p>Birth Date: <%= animal.birthDate.toDateString() %></p>
               <p>Color: <%= animal.color %></p>
               <p>Comment: <%= animal.comment %></p>
               <p>Chip ID: <%= animal.chipID %></p>
@@ -30,5 +31,8 @@
         <div class="ui divided items">
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
-      <% include ./partials/footer %>
+<% include ./partials/footer %>

@@ -33,7 +33,7 @@ let seedAnimals =
     comment: 'Likes mice',
     chipID: '04a529541620f135e422e647e9ccd8a7',
     adopted: false,
-    // birthDate: new Date(2016,03,30),
+    birthDate: new Date(2016,03,30),
     createdAt: new Date(2019,01,08)
   },
   {
@@ -45,7 +45,7 @@ let seedAnimals =
     adopted: false,
     // comment:,
     // chipID:,
-    // birthDate: new Date(2017,02,11),
+    birthDate: new Date(2017,02,11),
     createdAt: new Date(2019,01,08)
   },
   {
@@ -57,7 +57,7 @@ let seedAnimals =
     comment: 'Always happy',
     chipID: 'f7ade104e06f26c06e9b87218fd13c56',
     adopted: false,
-    // birthDate: new Date(2019,01,08),
+    birthDate: new Date(2019,01,08),
     createdAt: new Date(2019,01,08)
   },
   {
@@ -69,7 +69,7 @@ let seedAnimals =
     comment: 'Barking enthusiast',
     chipID: 'b05fc05741aad91c20ff49387090dd34',
     adopted: false,
-    // birthDate: new Date(2013, 03, 10),
+    birthDate: new Date(2013,03,10),
     createdAt: new Date(2019,01,08)
   },
   {
@@ -83,7 +83,7 @@ let seedAnimals =
     chipID: 'c05fc05741aad91c20ff49387090das4',
     // comment:,
     // chipID:,
-    // birthDate: new Date(2017,02,11),
+    birthDate: new Date(2017,02,11),
     createdAt: new Date(2019,01,08)
   },
   {
@@ -97,7 +97,7 @@ let seedAnimals =
     chipID: '665fc05741aad91c20ff49387090asfa',
     // comment:,
     // chipID:,
-    // birthDate: new Date(2017,02,11),
+    birthDate: new Date(2017,03,11),
     createdAt: new Date(2019,01,08)
   }
 ]

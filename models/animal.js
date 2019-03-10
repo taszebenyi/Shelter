@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const animalSchema = mongoose.Schema({
   species: {
     type: String,
-    enum: ['Cat', 'Dog'],
+    enum: ['cat', 'dog'],
     required: true
   },
   name: {
@@ -24,7 +24,7 @@ const animalSchema = mongoose.Schema({
   chipID: {
     type: String,
     maxlength: 50,
-    required: function() { return this.species === 'Dog'; }
+    required: function() { return this.species === 'dog'; }
   },
   adopted: {
     type: Boolean,
@@ -34,21 +34,35 @@ const animalSchema = mongoose.Schema({
   ownerID: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Owner',
+  },
+  birthDate: {
+    type: Date,
+    required: true,
+    validate: {
+      validator: (date) => {
+        return date < Date.now();
+      },
+      message: 'You can not specify a date in the future'
+    }
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+    default: Date.now,
+    validate: {
+      validator: (date) => {
+        return date < Date.now();
+      },
+      message: 'You can not specify a date in the future'
+    }
   }
-  // birthDate: {
-  //   type: Date,
-  //   required: true
-  // },
-  // createdAt: {
-  //   type: Date,
-  //   default: Date.now,
-  //   validate: {
-  //     validator: function(date) {
-  //       return date <= Date.now
-  //     },
-  //     message: function(props) { `${props.value} a mai datum utan van` }
-  //   }
-  // }
+});
+
+animalSchema.pre('validate', function(next) {
+  let animal = this;
+
+  animal.species = animal.species.toLowerCase();
+  next();
 });
 
 const Animal = mongoose.model('Animal', animalSchema);
